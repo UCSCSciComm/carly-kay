@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Template</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+
+
+#legend {
+      position: absolute;
+      bottom: 30px;
+      left: 10px;
+      background-color: white;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      opacity: 0.7;
+      z-index: 1;
+      width: 145px;
+    }
+
+       .legend h4 {
+      margin: 0;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      border-radius: 3px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id='map'></div> 
+
+<div id='legend'>
+  
+
+            <h4>Land cover</h4>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #377eb8;"></div>
+              <span>Open water and Wetland</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #bababa;"></div>
+               <span>Developed</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #4dac26;"></div>
+              <span>Natural Vegetation</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #a6611a;"></div>
+              <span>Cultivated Crops</span>
+            
+
+</div> 
+
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2FybHlrYXkiLCJhIjoiY203a3JzM21wMDNwdTJwb2NhaXlxMW1lYSJ9.LVcyfp3HzEBqk-LJiVqk4A';
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/carlykay/cm8akr90k00g401so6l5y7uzo',
+  center: [-121.767846,36.919887],
+  zoom: 10.0
+});
+
+// Add zoom and rotation controls to the map. 
+map.addControl(new mapboxgl.NavigationControl()); 
+
+// Disable scroll zooming 
+map.scrollZoom.disable();
+// Add popup
+map.on('click', function(e) {
+var features = map.queryRenderedFeatures(e.point, {
+layers: ['1,2,3,4'] 
+});
+
+if (!features.length) {
+return;
+}
+
+var feature = features[0];
+
+var popup = new mapboxgl.Popup({ offset: [0, -15] })
+.setLngLat(feature.geometry.coordinates)
+.setHTML('<b>Magnitude: </b>' + feature.properties.mag + '<br><b>Time: </b>' + feature.properties.time + '<br><b>Depth: </b>' + feature.properties.depth + ' km')
+.setLngLat(feature.geometry.coordinates)
+.addTo(map);
+});
+
+
+</script>
+
+</body>
+</html>
