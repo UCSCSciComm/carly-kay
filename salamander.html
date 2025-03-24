@@ -90,25 +90,6 @@ map.addControl(new mapboxgl.NavigationControl());
 
 // Disable scroll zooming 
 map.scrollZoom.disable();
-// Add popup
-map.on('click', function(e) {
-var features = map.queryRenderedFeatures(e.point, {
-layers: ['1,2,3,4'] 
-});
-
-if (!features.length) {
-return;
-}
-
-var feature = features[0];
-
-var popup = new mapboxgl.Popup({ offset: [0, -15] })
-.setLngLat(feature.geometry.coordinates)
-.setHTML('<b>Magnitude: </b>' + feature.properties.mag + '<br><b>Time: </b>' + feature.properties.time + '<br><b>Depth: </b>' + feature.properties.depth + ' km')
-.setLngLat(feature.geometry.coordinates)
-.addTo(map);
-});
-
 
 </script>
 
